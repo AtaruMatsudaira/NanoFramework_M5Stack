@@ -14,7 +14,7 @@ namespace HelloWorld
 {
     public class Program
     {
-        const string uri = "";
+        const string uri = "http://192.168.151.82:5000/post";
         const string ssid = "aterm-dd6f6c-g";
         const string password = "06e2e7e4221d5";
         public static void Main()
@@ -33,7 +33,8 @@ namespace HelloWorld
         [Serializable]
         public class NineAxisData
         {
-            public float[] acceleromet,gyroscope;
+            public float[] acceleromet { get; set; }
+            public float[] gyroscope { get; set; }
         }
 
         private static void Setup()
@@ -55,13 +56,15 @@ namespace HelloWorld
             var data = new NineAxisData();
             data.acceleromet = Vec3toFloatArray(acc);
             data.gyroscope = Vec3toFloatArray(gyr);
-            var postDataJson = JsonSerializer.SerializeObject(data);
+            var postDataJson = JsonSerializer.SerializeObject(data,false);
+            Debug.WriteLine(postDataJson);
             var content = new StringContent(postDataJson, Encoding.UTF8, "application/json");
-            var request = new HttpClient().Post(uri, content);
-            var result = request.EnsureSuccessStatusCode();
-            if (!result.IsSuccessStatusCode )
+            try
             {
-                Console.WriteLine("Networking Error");
+                var request = new HttpClient().Post(uri, content);
+            }catch(Exception e)
+            {
+                Console.WriteLine("Error!!!");
             }
         }
         private static float[] Vec3toFloatArray(Vector3 vector)
