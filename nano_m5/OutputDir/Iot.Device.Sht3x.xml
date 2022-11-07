@@ -1,0 +1,103 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Iot.Device.Sht3x</name>
+    </assembly>
+    <members>
+        <member name="T:Iot.Device.Sht3x.I2cAddress">
+            <summary>
+            SHT3x I2C Address
+            </summary>
+        </member>
+        <member name="F:Iot.Device.Sht3x.I2cAddress.AddrLow">
+            <summary>
+            ADDR (pin2) connected to logic low (Default)
+            </summary>
+        </member>
+        <member name="F:Iot.Device.Sht3x.I2cAddress.AddrHigh">
+            <summary>
+            ADDR (pin2) connected to logic high
+            </summary>
+        </member>
+        <member name="T:Iot.Device.Sht3x.Resolution">
+            <summary>
+            SHT3x Resolution (No Clock Stretching)
+            </summary>
+        </member>
+        <member name="F:Iot.Device.Sht3x.Resolution.High">
+            <summary>High resolution</summary>
+        </member>
+        <member name="F:Iot.Device.Sht3x.Resolution.Medium">
+            <summary>Medium resolution</summary>
+        </member>
+        <member name="F:Iot.Device.Sht3x.Resolution.Low">
+            <summary>Low resolution</summary>
+        </member>
+        <member name="T:Iot.Device.Sht3x.Register">
+            <summary>
+            SHT3x Register
+            </summary>
+        </member>
+        <member name="T:Iot.Device.Sht3x.Sht3x">
+            <summary>
+            Humidity and Temperature Sensor SHT3x
+            </summary>
+        </member>
+        <member name="P:Iot.Device.Sht3x.Sht3x.Resolution">
+            <summary>
+            SHT3x Resolution
+            </summary>
+        </member>
+        <member name="P:Iot.Device.Sht3x.Sht3x.Temperature">
+            <summary>
+            SHT3x Temperature
+            </summary>
+        </member>
+        <member name="P:Iot.Device.Sht3x.Sht3x.Humidity">
+            <summary>
+            SHT3x Relative Humidity (%)
+            </summary>
+        </member>
+        <member name="P:Iot.Device.Sht3x.Sht3x.Heater">
+            <summary>
+            SHT3x Heater
+            </summary>
+        </member>
+        <member name="M:Iot.Device.Sht3x.Sht3x.#ctor(System.Device.I2c.I2cDevice,Iot.Device.Sht3x.Resolution)">
+            <summary>
+            Creates a new instance of the SHT3x
+            </summary>
+            <param name="i2cDevice">The I2C device used for communication.</param>
+            <param name="resolution">SHT3x Read Resolution</param>
+        </member>
+        <member name="M:Iot.Device.Sht3x.Sht3x.Dispose">
+            <summary>
+            Cleanup
+            </summary>
+        </member>
+        <member name="M:Iot.Device.Sht3x.Sht3x.Reset">
+            <summary>
+            SHT3x Soft Reset
+            </summary>
+        </member>
+        <member name="M:Iot.Device.Sht3x.Sht3x.SetHeater(System.Boolean)">
+            <summary>
+            Set SHT3x Heater
+            </summary>
+            <param name="isOn">Heater on when value is true</param>
+        </member>
+        <member name="M:Iot.Device.Sht3x.Sht3x.ReadTempAndHumidity">
+            <summary>
+            Read Temperature and Humidity
+            </summary>
+        </member>
+        <member name="M:Iot.Device.Sht3x.Sht3x.CheckCrc8(System.SpanByte,System.Byte)">
+            <summary>
+            8-bit CRC Checksum Calculation
+            </summary>
+            <param name="data">Raw Data</param>
+            <param name="crc8">Raw CRC8</param>
+            <returns>Checksum is true or false</returns>
+        </member>
+    </members>
+</doc>
