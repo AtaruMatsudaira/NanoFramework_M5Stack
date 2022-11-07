@@ -1,20 +1,39 @@
 using nanoFramework.M5Stack;
-using System.Diagnostics;
+using System.Threading;
 using Console = nanoFramework.M5Stack.Console;
+using nanoFramework.Networking;
+using System.Diagnostics;
+using System.Text;
+using System.Net.Http;
+using System.Net;
+using System;
+using nanoFramework.Json;
+using System.Numerics;
 
 namespace HelloWorld
 {
     public class Program
     {
+        const string uri = "";
+        const string ssid = "aterm-dd6f6c-g";
+        const string password = "06e2e7e4221d5";
         public static void Main()
         {
+           
             Setup();
-            Console.WriteLine("HelloWorld");
+            ConnectWifi();
+
             while (true)
             {
                 Loop();
-                System.Threading.Thread.Sleep(50);
             }
+
+        }
+
+        [Serializable]
+        public class NineAxisData
+        {
+            public float[] acceleromet,gyroscope;
         }
 
         private static void Setup()
@@ -33,6 +52,43 @@ namespace HelloWorld
             Console.Clear();
             Console.WriteLine($"Accelerometer data x:{acc.X} y:{acc.Y} z:{acc.Z}");
             Console.WriteLine($"Gyroscope data x:{gyr.X} y:{gyr.Y} z:{gyr.Z}\n");
+            var data = new NineAxisData();
+            data.acceleromet = Vec3toFloatArray(acc);
+            data.gyroscope = Vec3toFloatArray(gyr);
+            var postDataJson = JsonSerializer.SerializeObject(data);
+            var content = new StringContent(postDataJson, Encoding.UTF8, "application/json");
+            var request = new HttpClient().Post(uri, content);
+            var result = request.EnsureSuccessStatusCode();
+            if (!result.IsSuccessStatusCode )
+            {
+                Console.WriteLine("Networking Error");
+            }
+        }
+        private static float[] Vec3toFloatArray(Vector3 vector)
+        {
+            float[] returnValue = { (float)vector.X, (float)vector.Y, (float)vector.Z };
+            return returnValue;
+        }
+        private static void ConnectWifi()
+        {
+            CancellationTokenSource cs = new(60000);
+
+            //WifiÇ≈DHCPê⁄ë±
+            var success = WifiNetworkHelper.ConnectDhcp(ssid, password, requiresDateTime: true, token: cs.Token);
+            if (!success)
+            {
+                Debug.WriteLine($"Can't connect to the network, error: {WifiNetworkHelper.Status}");
+                if (WifiNetworkHelper.HelperException != null)
+                {
+                    Debug.WriteLine($"ex: {WifiNetworkHelper.HelperException}");
+                }
+            }
+            else
+            {
+                Debug.WriteLine("Wifi Connected!");
+            
+            }
+            Console.WriteLine(success+"Yeah");
         }
     }
 }
